@@ -1,0 +1,106 @@
+{
+  "version": "2.0",
+  "metadata": {
+    "apiVersion": "2015-03-10",
+    "endpointPrefix": "newservicefromecstcs",
+    "jsonVersion": "1.1",
+    "protocol": "json",
+    "serviceAbbreviation": "Amazon ECS TCS New Service",
+    "serviceFullName": "Some New Amazon EC2 Container Service Telemetry Communication Service",
+    "signatureVersion": "v4",
+    "targetPrefix": "SomeNewAmazonEC2ContainerServiceTelemetry"
+  },
+  "operations": {
+    "PutSystemLogEvents": {
+      "name": "PutSystemLogEvents",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "PutSystemLogEventsInput"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ServerException"
+        }
+      ]
+    }
+  },
+  "shapes": {
+    "PutSystemLogEventsInput": {
+      "type": "structure",
+      "members": {
+        "logEvents": {
+          "shape": "LogEvents"
+        },
+        "logGroupName": {
+          "shape": "LogGroupName"
+        },
+        "logStreamName": {
+          "shape": "LogStreamName"
+        }
+      }
+    },
+    "LogEvents": {
+      "type": "list",
+      "member": {
+        "shape": "LogEvent"
+      },
+      "min": 1,
+      "max": 10000
+    },
+    "LogEvent": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "shape": "Message"
+        },
+        "timestamp": {
+          "shape": "Timestamp"
+        }
+      },
+      "required": [
+        "message",
+        "timestamp"
+      ]
+    },
+    "Message": {
+      "type": "string",
+      "min": 1,
+      "max": 256000
+    },
+    "LogGroupName":{
+      "type":"string",
+      "min":1,
+      "max":512,
+      "regex": "[\\.\\-_/#A-Za-z0-9]+"
+    },
+    "LogStreamName":{
+      "type":"string",
+      "min":1,
+      "max":512,
+      "regex": "[^:*]*"
+    },
+    "InvalidParameterException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "ServerException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true,
+      "fault":true
+    },
+    "Timestamp":{"type":"timestamp"},
+    "String":{"type":"string"}
+  }
+}
